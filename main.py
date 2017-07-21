@@ -1,14 +1,28 @@
+import operator
+import codecs
 from core import HashtagCounter as hcm
-from core import OutputFormatter as formatter
-from core import FileHelper as fhelper
 
-tweets = fhelper.readlines()
-hcounter = hcm.HashtagCounter(tweets)
-hashtags = hcounter.get_hashtags()
 
-for k, _ in formatter.get_topsorted(hashtags):
-    print('%s' % k)
+def readlines():
+    f = codecs.open('in.txt', 'r', 'utf-8')
+    return [_ for _ in f.read().splitlines()]
 
-hashtags_with_words = hcounter.get_hashtags_inf()
-for k, v in formatter.get_topsorted(hashtags_with_words):
-    print('%s : %s' % (k, ', '.join([w[0] for w in formatter.get_topsorted(v.words)])))
+def get_topsorted(input, ntop=10):
+    return sorted(input.iteritems(), key=operator.itemgetter(1), reverse=True)[:ntop]
+
+def main():
+    tweets = readlines()
+    hcounter = hcm.HashtagCounter(tweets)
+
+    hashtags = hcounter.get_hashtags()
+    for k, v in get_topsorted(hashtags):
+        print('%s' % k),
+
+    print('')
+    hashtags_with_words = hcounter.get_hashtags_inf()
+    for k, v in get_topsorted(hashtags_with_words):
+        print('%s:[%s]' % (k, ', '.join([w[0] for w in get_topsorted(v.words)])))
+
+
+if __name__ == '__main__':
+    main()
