@@ -1,5 +1,3 @@
-# coding=utf-8
-import re
 import HashtagInformation as him
 import HashtagFormatter as hfm
 
@@ -7,7 +5,7 @@ import HashtagFormatter as hfm
 class HashtagCounter(object):
     @property
     def tweets(self):
-        return self.__tweets
+        return list(self.__tweets)
 
     def __init__(self, tweets):
         self.__tweets = list(hfm.formattweets(tweets))

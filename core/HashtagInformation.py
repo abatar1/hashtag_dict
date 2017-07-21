@@ -4,7 +4,7 @@ from collections import Counter
 class HashtagInformation(object):
     @property
     def words(self):
-        return self.__words
+        return dict(self.__words)
 
     @property
     def occurrence(self):
